@@ -6,11 +6,11 @@ on:
 
 jobs:
  Build-Push-To-GCR:
-   permissions:
-     contents: 'read'
-     id-token: 'write'
-    runs-on: ubuntu-latest
 
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     env:
       HOSTNAME: gcr.io 
       PROJECT_ID: banded-lexicon-360413
