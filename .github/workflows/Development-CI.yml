@@ -13,7 +13,7 @@ jobs:
       id-token: 'write'
     env:
       HOSTNAME: gcr.io 
-      PROJECT_ID: banded-lexicon-360413
+      PROJECT_ID: atomic-bird-377312
     steps:
     
       - uses: actions/checkout@v2
