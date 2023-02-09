@@ -42,8 +42,8 @@ jobs:
 
       - name: build docker image
         run: |
-          cd customer-service
-          docker build -t $HOSTNAME/$PROJECT_ID/customer-service:1.0.0 .
+          docker pull gcr.io/banded-lexicon-360413/asm-ready/loadgen:v0.0.1
         
-      - name: Docker Image to Container Registry (GCR)
-        run: docker push $HOSTNAME/$PROJECT_ID/customer-service:1.0.0 
+      - name: build docker image
+        run: |
+          docker images
