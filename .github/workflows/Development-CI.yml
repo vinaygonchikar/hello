@@ -31,6 +31,12 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
 
+
+      - name: Configure Docker Client
+        run: |-
+          gcloud auth configure-docker --quiet
+          gcloud auth configure-docker banded-lexicon-360413 --quiet
+
       - name: build docker image
         run: |
           docker pull gcr.io/banded-lexicon-360413/asm-ready/loadgen:v0.0.1
