@@ -46,4 +46,4 @@ jobs:
           docker build -t $HOSTNAME/$PROJECT_ID/customer-service:1.0.0 .
         
       - name: Docker Image to Container Registry (GCR)
-        run: docker push $HOSTNAME/$PROJECT_ID/customer-service:1.0.0 .
+        run: docker push $HOSTNAME/$PROJECT_ID/customer-service:1.0.0 
