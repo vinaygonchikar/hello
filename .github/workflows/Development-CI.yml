@@ -1,0 +1,46 @@
+
+name: Development-CI
+on:
+  workflow_dispatch:
+
+
+jobs:
+ Build-Push-To-GCR:
+    runs-on: ubuntu-latest
+
+    env:
+      HOSTNAME: gcr.io 
+      PROJECT_ID: banded-lexicon-360413
+    steps:
+    
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: |
+          mvn clean install
+
+      # Configure Workload Identity Federation via a credentials file.
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/334782020989/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          service_account: 'checkanthos@banded-lexicon-360413.iam.gserviceaccount.com'
+
+      # Install gcloud, `setup-gcloud` automatically picks up authentication from `auth`.
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: build docker image
+        run: |
+          cd customer-service
+          docker build -t $HOSTNAME/$PROJECT_ID/customer-service:1.0.0 .
+        
+      - name: Docker Image to Container Registry (GCR)
+        run: docker push $HOSTNAME/$PROJECT_ID/customer-service:1.0.0 .
